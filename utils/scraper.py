@@ -19,6 +19,9 @@ class Product:
 
 
 class Scraper:
+    """
+    Utility class to scrape product data from a website.
+    """
     def __init__(self, base_url: str, proxy: str = None):
         self.base_url = base_url
         self.proxy = proxy
@@ -31,6 +34,9 @@ class Scraper:
 
     @retry(max_attempts=3, delay=2)
     def scrape_page(self, page_number: int) -> List[Product]:
+        """
+        Scrapes product data from a specific page of the website.
+        """
         url = f"{self.base_url}/page/{page_number}/"
         response = self.session.get(url)
         response.raise_for_status()
@@ -52,6 +58,9 @@ class Scraper:
         return products
 
     def scrape(self, num_pages: int) -> List[Product]:
+        """
+        Scrapes product data from multiple pages of the website.
+        """
         all_products = []
         for page in range(1, num_pages + 1):
             try:
@@ -63,11 +72,17 @@ class Scraper:
 
 
 class BaseScrapeDBNotifer(ABC):
+    """
+    Abstract base class defining methods for scraping, saving products, and notifying.
+    """
     def __init__(self):
         self.database = DatabaseInterface
         self.notifier = NotifierInterface
 
     def scrape_data_save_and_notify(self, num_pages: int = 5, proxy: str | None = None):
+        """
+        Scrapes data from the website, saves new products to the database, and notifies.
+        """
         scraper = Scraper(settings.SITE_URL, proxy)
         scraped_products = scraper.scrape(num_pages)
 
@@ -90,7 +105,12 @@ class BaseScrapeDBNotifer(ABC):
 
 
 class ScrapeFileDBWithPrintNotifier(BaseScrapeDBNotifer):
-
+    """
+    Implementation of BaseScrapeDBNotifer using FileDatabase for storage and PrintNotifier for notification.
+    """
     def __init__(self):
+        """
+        Initialize the ScrapeFileDBWithPrintNotifier instance.
+        """
         self.database = FileDatabase
         self.notifier = PrintNotifier
