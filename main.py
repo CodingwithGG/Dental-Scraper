@@ -28,3 +28,4 @@ class FastAPI(FastAPIMain):
         """"""
         self.set_middleware()
         self._include_router()
+
