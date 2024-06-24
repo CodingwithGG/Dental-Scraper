@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from core.cache import Cache
 from core.config import settings
 from core.notifier import PrintNotifier, NotifierInterface
+from core.retry import retry
 from utils.save_product import FileDatabase, DatabaseInterface
 
 
@@ -28,6 +29,7 @@ class Scraper:
                 "https": proxy,
             }
 
+    @retry(max_attempts=3, delay=2)
     def scrape_page(self, page_number: int) -> List[Product]:
         url = f"{self.base_url}/page/{page_number}/"
         response = self.session.get(url)

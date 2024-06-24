@@ -12,7 +12,7 @@ class Settings:
     PROJECT_VERSION: str = "1.0.0"
     SITE_URL: str = "https://dentalstall.com/shop"
     FILE_PATH: str = "products.json"
-    AUTH_TOKEN: str = ""
+    AUTH_TOKEN: str = os.getenv("AUTH_TOKEN")
 
 
 settings = Settings()

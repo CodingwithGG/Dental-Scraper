@@ -11,7 +11,7 @@ from utils.scraper import ScrapeFileDBWithPrintNotifier
 router = APIRouter()
 
 
-@router.post("/", response_model=List[ProductResponse])
+@router.post("/", response_model=List[ProductResponse], dependencies=[Depends(get_token_header)])
 def scrape_products(request: ScrapeRequest):
     scrape_obj = ScrapeFileDBWithPrintNotifier()
     return scrape_obj.scrape_data_save_and_notify(num_pages=request.num_pages, proxy=request.proxy)
