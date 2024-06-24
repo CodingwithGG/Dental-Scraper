@@ -39,5 +39,5 @@ class PostgresDatabase:
     def save_products(self, products: List[dict]):
         """can be used later on to save products into database"""
 
-    def load_products(self, ):
+    def load_products(self):
         """can be used later on to load products from database"""

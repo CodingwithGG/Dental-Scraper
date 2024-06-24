@@ -6,9 +6,12 @@ from schemas.scrape import ProductResponse, ScrapeRequest
 from fastapi import Depends
 from typing import List
 
+from utils.scraper import ScrapeFileDBWithPrintNotifier
+
 router = APIRouter()
 
 
-@router.post("/scrape", response_model=List[ProductResponse], dependencies=[Depends(get_token_header)])
-async def scrape_products(request: ScrapeRequest):
-    """"""
+@router.post("/", response_model=List[ProductResponse], dependencies=[Depends(get_token_header)])
+def scrape_products(request: ScrapeRequest):
+    scrape_obj = ScrapeFileDBWithPrintNotifier()
+    return scrape_obj.scrape_data_save_and_notify(num_pages=request.num_pages, proxy=request.proxy)
