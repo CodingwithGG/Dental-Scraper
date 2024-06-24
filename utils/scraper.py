@@ -28,7 +28,6 @@ class BaseScrapeDBNotifer(ABC):
         self.database = DatabaseInterface
         self.notifier = NotifierInterface
 
-    @abstractmethod
     def scrape_data_save_and_notify(self):
         """"""
 
@@ -39,5 +38,3 @@ class ScrapeFileDBWithPrintNotifier():
         self.database = FileDatabase
         self.notifier = PrintNotifier
 
-    def scrape_data_save_and_notify(self):
-        """"""
